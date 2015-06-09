@@ -1,0 +1,60 @@
+<html>
+<head>
+</head>
+<body>
+	<h3>My Todo List</h3>
+	<input id="mytodo">
+	<div>
+		<ul id="mytodos">
+		</ul>
+	</div>
+	
+	<div id="count"></div>
+
+<script>
+	var todos = [];
+	var count = document.getElementById("count");
+	
+	var mytodo = document.getElementById("mytodo");
+	mytodo.addEventListener("keypress",addTodo);
+ 	
+	var mytodos = document.getElementById("mytodos");
+	mytodos.addEventListener("click", delTodo);
+	
+	function delTodo(e) {
+		var value = e.target.innerText;
+		var len = todos.length;
+		for (var i= 0; i < len; i++) {
+			if (todos[i].name === value){
+				var del = todos.splice(i,1);
+				buildDom();
+				count.innerText = todos.length;
+				return;
+			}
+		}
+	}
+	
+	function addTodo(e){
+		var value = mytodo.value
+		if (e.which !== 13 || value.length == 0){
+			return;
+		}
+		var todo = { 
+			name: value,
+			status: false,
+		}
+		todos.push(todo);
+		buildDom();
+		count.innerText = todos.length;
+	}
+	
+	function buildDom(){
+		var items = todos.map(function(item){
+			return '<li>' + item.name + '</li>';
+		});
+		mytodos.innerHTML = items.join("");
+		mytodo.value = '';
+	}
+</script>
+</body>
+</html>
